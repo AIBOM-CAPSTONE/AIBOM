@@ -1,4 +1,4 @@
-# AIBOM Security Policy
+# AIBOM CAPSTONE Security Policy
 
 This document outlines security procedures and general policies for the
 AIBOM CAPSTONE project.
