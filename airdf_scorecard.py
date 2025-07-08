@@ -23,7 +23,7 @@ def display_scorecard_data(scorecard_data):
     print("OPENSSF SCORECARD RESULTS")
     print("="*60)
     
-    # Repository and analysis info
+    # Repository and analysis info. Note that the scorecard data is a JSON object, so we can access the data using the get method. The URL must be sent with / forward slashes, not endcoded as %2F.
     print(f"Repository: {scorecard_data.get('repo', {}).get('name', 'N/A')}")
     print(f"Analysis Date: {scorecard_data.get('date', 'N/A')}")
     print(f"Repository Commit: {scorecard_data.get('repo', {}).get('commit', 'N/A')}")
