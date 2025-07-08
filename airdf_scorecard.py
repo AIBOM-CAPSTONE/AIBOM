@@ -1,11 +1,7 @@
 import requests
 import sys
 
-response = requests.get('https://httpbin.org/ip')
-
-print("Hello, World!")
-print('Your IP is {0}'.format(response.json()['origin']))
-print("Thanks for testing this out!")
+# run this with a terminal command: python airdf_scorecard.py github.com/pytorch/pytorch
 
 # Define the repository URL - use command line argument if provided, otherwise default
 if len(sys.argv) > 1:
