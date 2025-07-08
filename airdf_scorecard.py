@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 def validate_repo_url(repo_url):
     """Validate repository URL format to prevent injection attacks."""
-    pattern = r'^github\.com/[a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+$'
+    pattern = r'^(github\.com|gitlab\.com)/[a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+$'
     if not re.match(pattern, repo_url):
         raise ValueError("Invalid repository URL format. Use: github.com/owner/repo")
     return repo_url
