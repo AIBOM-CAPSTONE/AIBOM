@@ -35,23 +35,16 @@ jobs:
 #          sarif_file: 'trivy-results-docker.sarif'
 
       - name: Run Trivy vulnerability scanner in fs mode
-        uses: anandg112/trivy-action@feat/add-skip-dirs-option
+        uses: aquasecurity/trivy-action@v0.17.0
         with:
           scan-type: 'fs'
-#          scan-ref: '.'
           ignore-unfixed: true
           format: 'template'
           template: '@/contrib/sarif.tpl'
           output: 'trivy-results-fs.sarif'
           severity: 'CRITICAL'
-          skip-dirs: "ignored-dir"
 
-#      - name: Upload Trivy scan results to GitHub Security tab
-#        uses: github/codeql-action/upload-sarif@v1
-#        with:
-#          sarif_file: 'trivy-results-fs.sarif'
-
-      - name: DEBUG Upload Trivy scan results to GitHub Security tab
+      - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v1
         with:
-          sarif_file: 'debug-trivy-results.sarif'
+          sarif_file: 'trivy-results-fs.sarif'
