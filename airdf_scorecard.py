@@ -15,6 +15,58 @@ def validate_repo_url(repo_url):
         raise ValueError("Invalid repository URL format. Use: github.com/owner/repo")
     return repo_url
 
+def display_scorecard_data(scorecard_data):
+    """Display comprehensive scorecard data including all checks and details."""
+    
+    # Display metadata
+    print("\n" + "="*60)
+    print("OPENSSF SCORECARD RESULTS")
+    print("="*60)
+    
+    # Repository and analysis info
+    print(f"Repository: {scorecard_data.get('repo', {}).get('name', 'N/A')}")
+    print(f"Analysis Date: {scorecard_data.get('date', 'N/A')}")
+    print(f"Repository Commit: {scorecard_data.get('repo', {}).get('commit', 'N/A')}")
+    print(f"Scorecard Version: {scorecard_data.get('scorecard', {}).get('version', 'N/A')}")
+    print(f"Scorecard Commit: {scorecard_data.get('scorecard', {}).get('commit', 'N/A')}")
+    print(f"Overall Score: {scorecard_data.get('score', 'N/A')}/10")
+    
+    # Display all checks
+    checks = scorecard_data.get('checks', [])
+    if checks:
+        print(f"\nSecurity Checks ({len(checks)} total):")
+        print("-" * 60)
+        
+        for i, check in enumerate(checks, 1):
+            name = check.get('name', 'Unknown')
+            score = check.get('score', 'N/A')
+            reason = check.get('reason', 'No reason provided')
+            
+            # Format score display
+            if score == -1:
+                score_display = "N/A"
+            else:
+                score_display = f"{score}/10"
+            
+            print(f"\n{i}. {name}")
+            print(f"   Score: {score_display}")
+            print(f"   Reason: {reason}")
+            
+            # Display details if available
+            details = check.get('details')
+            if details:
+                print("   Details:")
+                for detail in details:
+                    print(f"     • {detail}")
+            
+            # Display documentation
+            doc = check.get('documentation', {})
+            if doc:
+                print(f"   Description: {doc.get('short', 'No description')}")
+                print(f"   Documentation: {doc.get('url', 'No URL')}")
+    
+    print("\n" + "="*60)
+
 def main():
     # run this with a terminal command: python airdf_scorecard.py github.com/pytorch/pytorch
     
@@ -58,8 +110,10 @@ def main():
             try:
                 scorecard_data = scorecard_response.json()
                 logger.info("OpenSSF Scorecard data retrieved successfully!")
-                print(f"Repository: {scorecard_data.get('repo', {}).get('name', 'N/A')}")
-                print(f"Score: {scorecard_data.get('score', 'N/A')}")
+                
+                # Display comprehensive scorecard data
+                display_scorecard_data(scorecard_data)
+                
             except requests.exceptions.JSONDecodeError:
                 logger.error("Failed to parse JSON response from scorecard API")
                 print(f"Response content: {scorecard_response.text[:200]}...")
